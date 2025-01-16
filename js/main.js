@@ -32,23 +32,20 @@ function handleSubmit(evt) {
 }
 
 function handleDelete(evt) {
-    console.log(evt.target);
-    // if (evt.target.tagName !== 'SPAN') return;
+    // Check if the event target is a button, if not, return:
     if (evt.target.tagName !== 'BUTTON') return;
-    console.log('delete this skill');
-    // let skill = $(evt.target).text();
+    // Get the skill text from the sibling span element:
     let skill = $(evt.target.nextSibling).text();
-    console.log(skill);
     // Find the index of the skill to be deleted:
     const index = listOfSkills.indexOf(skill);
     // Splice that skill out of the list:
     listOfSkills.splice(index, 1);
-
-    // listOfSkills = listOfSkills.filter(s => s !== skill);
+    // Re-render the list:
     render();
 }
 
 function handleKeyPress(evt) {
+    // Trigger a click event on the submit button if the enter key is pressed:
     if (evt.key === 'Enter') {
         $submitButton.trigger('click');
     }
@@ -60,21 +57,22 @@ function render() {
     
     // Iterater over the list to render each skill:
     listOfSkills.forEach(skill => {
-        // Create the delete button to add to each skill:
+        // Create the delete button:
         const deleteButton = document.createElement('button');
         deleteButton.innerHTML = '&#10060';
         deleteButton.setAttribute('class', 'btn btn-sm btn-outline-danger mx-2');
 
+        // Create the span element with the skill text:
         const spanEl = document.createElement('span');
         spanEl.textContent = skill;
         
+        // Create the list element and append the delete button and span:
         const listEl = document.createElement('li');
         listEl.setAttribute('class', 'list-group-item px-0');
-
-        // listEl.innerHTML = `<span>&#10060 </span>${skill}`;
         listEl.appendChild(deleteButton);
         listEl.appendChild(spanEl);
+
+        // Append the list element to the skills container:
         $skillsEl.append(listEl);
-        // $skillsEl.append(`<li><span>&#10060 </span>${skill}</li>`);
     });
 }
