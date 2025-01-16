@@ -15,7 +15,7 @@ document.addEventListener('keydown', handleKeyPress);
 
 /*----- functions -----*/
 function init() {
-    listOfSkills = [];
+    listOfSkills = localStorage.getItem('listOfSkills') ? JSON.parse(localStorage.getItem('listOfSkills')) : [];
     render();
 }
 
@@ -27,6 +27,8 @@ function handleSubmit(evt) {
     listOfSkills.push($newSkillEl.val());
     // Clear the input field:
     $newSkillEl.val('');
+    // Save the updated list to local storage:
+    localStorage.setItem('listOfSkills', JSON.stringify(listOfSkills));
     // Re-render the list:
     render();
 }
@@ -40,6 +42,8 @@ function handleDelete(evt) {
     const index = listOfSkills.indexOf(skill);
     // Splice that skill out of the list:
     listOfSkills.splice(index, 1);
+    // Save the updated list to local storage:
+    localStorage.setItem('listOfSkills', JSON.stringify(listOfSkills));
     // Re-render the list:
     render();
 }
