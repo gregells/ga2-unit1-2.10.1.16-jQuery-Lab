@@ -6,7 +6,7 @@ let listOfSkills;
 /*----- cached elements  -----*/
 const $skillsEl = $('ul');
 const $newSkillEl = $('input');
-const $submitButton = $('button');
+const $submitButton = $('#submit');
 
 /*----- event listeners -----*/
 $submitButton.on('click', handleSubmit);
@@ -33,7 +33,8 @@ function handleSubmit(evt) {
 
 function handleDelete(evt) {
     console.log(evt.target);
-    if (evt.target.tagName !== 'SPAN') return;
+    // if (evt.target.tagName !== 'SPAN') return;
+    if (evt.target.tagName !== 'BUTTON') return;
     console.log('delete this skill');
     // let skill = $(evt.target).text();
     let skill = $(evt.target.nextSibling).text();
@@ -56,8 +57,24 @@ function handleKeyPress(evt) {
 function render() {
     // Clear out the list container:
     $skillsEl.html('');
+    
     // Iterater over the list to render each skill:
     listOfSkills.forEach(skill => {
-        $skillsEl.append(`<li><span>&#10060 </span>${skill}</li>`);
+        // Create the delete button to add to each skill:
+        const deleteButton = document.createElement('button');
+        deleteButton.innerHTML = '&#10060';
+        deleteButton.setAttribute('class', 'btn btn-sm btn-outline-danger mx-2');
+
+        const spanEl = document.createElement('span');
+        spanEl.textContent = skill;
+        
+        const listEl = document.createElement('li');
+        listEl.setAttribute('class', 'list-group-item px-0');
+
+        // listEl.innerHTML = `<span>&#10060 </span>${skill}`;
+        listEl.appendChild(deleteButton);
+        listEl.appendChild(spanEl);
+        $skillsEl.append(listEl);
+        // $skillsEl.append(`<li><span>&#10060 </span>${skill}</li>`);
     });
 }
